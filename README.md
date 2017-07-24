@@ -24,7 +24,9 @@
 ---
 
 # 测试指南
-- 安装依赖
+- 安装依赖 npm install 
 - 启动redis， mongodb
 - 启动 app.js
 - 进入 localhost:3000 即可测试
+
+另：由于只是练习session和cookie，所以对于提交的特殊字符（比如'<script></script>'）未做转义处理
