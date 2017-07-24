@@ -38,7 +38,9 @@ router.get('/', (req, res) => {
 							throw err;
 							res.status(500);
 						}
+						req.session.times += 1;
 						data = data.replace('${name}', result.user.username);
+						data = data.replace('${times}', req.session.times === 1? '1 time' : req.session.times + ' times' );
 						res.status(200);
 						res.type('html');
 						res.send(data);
@@ -82,7 +84,8 @@ router.post('/api/login', (req, res) => {
 	db_util.checkPasswd(req.body.username, req.body.password)
 		.then((result) => {
 			if (result.msg === sysMsg.success) {
-				req.session.userId = result.userId;	
+				req.session.userId = result.userId;
+				req.session.times = 0;
 				console.log('success');
 				res.redirect('/');
 			}	else {
@@ -148,7 +151,8 @@ router.post('/api/signin', (req, res) => {
 		})
 		.then((result) => {
 			req.session.userId = result.userId;
-			res.redirect('/');	
+			req.session.times = 0;
+			res.redirect('/');
 		})
 		.catch((err) => {
 			console.error(err);
